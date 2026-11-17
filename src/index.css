@@ -1,0 +1,4246 @@
+/* =========================================================
+   MODERN UI THEME
+   Purpose:
+   - Modern SaaS / AI-product visual language
+   - Preserves all existing class names and functionality
+   - No HTML/JS changes required
+   ========================================================= */
+
+:root {
+  --bg: #f5f7fb;
+  --bg-soft: #f8faff;
+  --panel: #ffffff;
+  --panel-2: #f8fafc;
+  --panel-3: #f1f5f9;
+
+  --ink: #172033;
+  --ink-2: #334155;
+  --muted: #718096;
+  --muted-2: #94a3b8;
+
+  --line: #e7eaf1;
+  --line-2: #d7dce6;
+
+  --brand: #6366f1;
+  --brand-dark: #4f46e5;
+  --brand-ink: #4338ca;
+  --brand-soft: #eef2ff;
+
+  --accent: #06b6d4;
+  --accent-soft: #ecfeff;
+
+  --ok: #10b981;
+  --ok-dark: #059669;
+  --ok-soft: #ecfdf5;
+
+  --warn: #f59e0b;
+  --warn-dark: #d97706;
+  --warn-soft: #fffbeb;
+
+  --bad: #ef4444;
+  --bad-dark: #dc2626;
+  --bad-soft: #fef2f2;
+
+  --purple: #8b5cf6;
+  --purple-dark: #7c3aed;
+  --purple-soft: #f5f3ff;
+
+  --r: 16px;
+  --r-sm: 11px;
+  --r-lg: 22px;
+
+  --sh: 0 1px 2px rgba(15, 23, 42, 0.03), 0 8px 30px rgba(15, 23, 42, 0.055);
+
+  --sh-hover: 0 12px 36px rgba(79, 70, 229, 0.12);
+
+  --font:
+    "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue",
+    Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background:
+    radial-gradient(circle at 85% 0%, rgba(99, 102, 241, 0.055), transparent 25%),
+    linear-gradient(180deg, #f8faff 0%, var(--bg) 100%);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+button {
+  outline: none;
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--brand-dark);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+h1,
+h2 {
+  font-weight: 750;
+}
+
+.muted {
+  color: var(--muted);
+}
+.small {
+  font-size: 12px;
+}
+.xs {
+  font-size: 11px;
+}
+.bold {
+  font-weight: 650;
+}
+.center {
+  text-align: center;
+}
+.right {
+  text-align: right;
+}
+.mono {
+  font-family: "Consolas", "SF Mono", Menlo, monospace;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  /* A .row is itself flexed inside other rows/grids all over the app. Flex
+     items default to min-width:auto, which floors their size at their
+     content's intrinsic width — so a row holding something wide (e.g. a
+     <select> sized to a long option) refuses to shrink, forces its parent
+     wider than the viewport, and defeats flex-wrap on every ancestor up the
+     chain. min-width:0 is what lets a .row actually shrink to fit, the same
+     fix already applied to .col and .grid > * below. */
+  min-width: 0;
+}
+
+.row.wrap {
+  flex-wrap: wrap;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.spread {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* .row/.spread are used throughout as toolbars and filter bars mixing
+   fixed-width inputs/selects with buttons. Neither wraps by default, so on a
+   narrow phone the fixed-width children just keep going off the right edge
+   of the screen instead of dropping to a second line. Wrapping them here is
+   the one change that fixes that for every such row across the app, without
+   touching each page's markup or affecting the desktop/tablet layout. */
+@media (max-width: 1100px) {
+  .row,
+  .spread {
+    flex-wrap: wrap;
+  }
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+.hide {
+  display: none !important;
+}
+.mt {
+  margin-top: 12px;
+}
+.mt2 {
+  margin-top: 20px;
+}
+.mb {
+  margin-bottom: 12px;
+}
+
+/* =========================================================
+   APP SHELL / SIDEBAR
+   ========================================================= */
+
+#app {
+  min-height: 100%;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+}
+
+.side {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(129, 140, 248, 0.18), transparent 32%),
+    linear-gradient(180deg, #151a33 0%, #11162b 55%, #0d1224 100%);
+  color: #cbd3e7;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 10px 0 40px rgba(15, 23, 42, 0.08);
+}
+
+.brandbox {
+  padding: 20px 17px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brandbox .logo {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar-collapse-btn {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #aeb8d0;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.sidebar-collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.shell.collapsed .nav a {
+  justify-content: center;
+}
+
+/* Collapsed state stacks the mark above the collapse control instead of
+   squeezing both onto one row — at 76px wide there isn't room for both side
+   by side without the control overlapping or getting clipped. */
+.shell.collapsed .brandbox {
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 10px;
+}
+
+.shell.collapsed .brandbox .logo {
+  flex: none;
+}
+
+@media (min-width: 821px) {
+  .shell.collapsed {
+    grid-template-columns: 76px 1fr;
+  }
+}
+
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #818cf8, #6366f1 52%, #22d3ee);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #fff;
+  font-size: 13px;
+  box-shadow: 0 7px 20px rgba(99, 102, 241, 0.32);
+}
+
+.brandbox b {
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: 0.1px;
+}
+
+.navsec {
+  padding: 18px 12px 6px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #727c9c;
+  font-weight: 700;
+}
+
+.nav a {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  padding: 10px 12px;
+  margin: 2px 9px;
+  border-radius: 11px;
+  color: #aeb8d0;
+  cursor: pointer;
+  font-size: 13.2px;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.065);
+  color: #fff;
+  transform: translateX(2px);
+}
+
+.nav a.on {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(79, 70, 229, 0.82));
+  color: #fff;
+  font-weight: 650;
+  box-shadow:
+    0 7px 20px rgba(79, 70, 229, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.nav a .ic {
+  width: 18px;
+  text-align: center;
+  opacity: 0.95;
+}
+
+.nav a .pill {
+  margin-left: auto;
+  background: #f43f5e;
+  color: #fff;
+  border-radius: 99px;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.sidefoot {
+  margin-top: auto;
+  padding: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 11px;
+  color: #737e9d;
+}
+
+/* =========================================================
+   MAIN / TOPBAR
+   ========================================================= */
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 11px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.crumb {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.crumb b {
+  color: var(--ink);
+}
+
+.searchbox {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  max-width: 430px;
+}
+
+.searchbox input {
+  width: 100%;
+  padding: 9px 13px 9px 35px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(248, 250, 252, 0.9);
+  outline: none;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.searchbox input:hover {
+  border-color: #cfd5e2;
+}
+
+.searchbox input:focus {
+  border-color: #a5b4fc;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.09);
+}
+
+.searchbox .si {
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  opacity: 0.48;
+}
+
+.searchres {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.13);
+  z-index: 60;
+  overflow: hidden;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.searchres div {
+  padding: 10px 13px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.15s ease;
+}
+
+.searchres div:hover {
+  background: var(--brand-soft);
+}
+
+.iconbtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  position: relative;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.iconbtn:hover {
+  border-color: #cfd5e2;
+  background: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.07);
+}
+
+.dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #f43f5e;
+  color: #fff;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 750;
+  min-width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  padding: 0 4px;
+  border: 2px solid #fff;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, #6366f1, #06b6d4);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 750;
+  font-size: 12px;
+  box-shadow: 0 5px 16px rgba(99, 102, 241, 0.2);
+}
+
+.profilewrap {
+  position: relative;
+}
+
+.profilebackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 59;
+}
+
+.profilecard {
+  position: absolute;
+  top: 46px;
+  right: 0;
+  width: 220px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.13);
+  z-index: 60;
+  padding: 14px;
+}
+
+.profilecard-name {
+  font-weight: 750;
+  margin-bottom: 8px;
+}
+
+.profilecard-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 13px;
+}
+
+.content {
+  padding: 26px;
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* On very large monitors, keep using more of the available width instead of
+   leaving a fixed 1600px island with large empty margins either side. */
+@media (min-width: 1750px) {
+  .content {
+    max-width: 92vw;
+  }
+}
+
+/* =========================================================
+   CARDS / GRIDS
+   ========================================================= */
+
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: var(--r);
+  box-shadow: var(--sh);
+  overflow: hidden;
+}
+
+.card.pad {
+  padding: 20px;
+}
+
+.card-h {
+  padding: 15px 19px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(248, 250, 252, 0.45);
+}
+
+.card-h h3 {
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.card-b {
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  gap: 17px;
+}
+
+/* Grid items (and the .col/.card layout blocks typically placed in them)
+   default to min-width:auto, which stops them shrinking below the intrinsic
+   width of whatever they contain (e.g. a wide table). That forces the whole
+   grid — and the page — wider than the viewport instead of letting an inner
+   .tbl-wrap scroll on its own. This override is what actually makes tables
+   and other wide content stay contained on narrow screens. */
+.grid > * {
+  min-width: 0;
+}
+
+.g2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.g3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.g4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.g5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 1100px) {
+  .g4,
+  .g5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .g3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.sidebackdrop {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+  .side {
+    position: fixed;
+    left: -270px;
+    transition: 0.22s ease;
+    z-index: 100;
+    width: 250px;
+  }
+  .side.open {
+    left: 0;
+  }
+  .g2,
+  .g3,
+  .g4,
+  .g5 {
+    grid-template-columns: 1fr;
+  }
+  .content {
+    padding: 16px;
+  }
+  .topbar {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+  /* The sidebar is an off-canvas drawer below this width — without a visible
+     toggle there is no way to open it at all, so show the button here
+     (it's hidden on desktop since the sidebar is always visible there). */
+  .menu-toggle {
+    display: grid;
+    flex: none;
+  }
+  .sidebackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    z-index: 99;
+  }
+}
+
+/* =========================================================
+   KPI
+   ========================================================= */
+
+.kpi {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  padding: 17px 18px;
+  box-shadow: var(--sh);
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sh-hover);
+}
+
+.kpi:after {
+  content: "";
+  position: absolute;
+  right: -28px;
+  top: -28px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.045);
+  pointer-events: none;
+}
+
+.kpi .lab {
+  font-size: 10.8px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.075em;
+  font-weight: 700;
+}
+
+.kpi .val {
+  font-size: 27px;
+  font-weight: 750;
+  margin-top: 5px;
+  letter-spacing: -0.7px;
+}
+
+.kpi .sub {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.kpi.b {
+  border-left: 3px solid #6366f1;
+}
+.kpi.g {
+  border-left: 3px solid #10b981;
+}
+.kpi.o {
+  border-left: 3px solid #f59e0b;
+}
+.kpi.p {
+  border-left: 3px solid #8b5cf6;
+}
+.kpi.r {
+  border-left: 3px solid #ef4444;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line-2);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 650;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn.pri {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border-color: #6366f1;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.2);
+}
+
+.btn.pri:hover {
+  background: linear-gradient(135deg, #5558ee, #4338ca);
+  box-shadow: 0 9px 22px rgba(79, 70, 229, 0.26);
+}
+
+.btn.ok {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-color: #10b981;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.16);
+}
+
+.btn.dan {
+  background: #fff;
+  border-color: #fecaca;
+  color: var(--bad-dark);
+}
+
+.btn.dan:hover {
+  background: var(--bad-soft);
+}
+
+.btn.ghost {
+  border-color: transparent;
+  background: transparent;
+}
+
+.btn.ghost:hover {
+  background: var(--panel-3);
+}
+
+.btn.sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.btn.lg {
+  padding: 12px 22px;
+  font-size: 15px;
+  border-radius: 12px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn.block {
+  width: 100%;
+  justify-content: center;
+}
+
+/* =========================================================
+   TAGS / BADGES
+   ========================================================= */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 650;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.tag.b {
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+  border-color: #c7d2fe;
+}
+
+.tag.g {
+  background: var(--ok-soft);
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+.tag.o {
+  background: var(--warn-soft);
+  color: #a16207;
+  border-color: #fde68a;
+}
+
+.tag.r {
+  background: var(--bad-soft);
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.tag.p {
+  background: var(--purple-soft);
+  color: #6d28d9;
+  border-color: #ddd6fe;
+}
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+label.f {
+  display: block;
+  font-size: 12px;
+  font-weight: 650;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+label.f .req {
+  color: var(--bad);
+}
+
+.inp {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: #fff;
+  outline: none;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease,
+    background 0.16s ease;
+}
+
+.inp:hover {
+  border-color: #cbd5e1;
+}
+
+.inp:focus {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.09);
+  background: #fff;
+}
+
+textarea.inp {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.hint {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.fieldrow {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 700px) {
+  .fieldrow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  font-size: 10.5px;
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
+  color: #64748b;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  background: #f8fafc;
+  white-space: nowrap;
+  font-weight: 750;
+}
+
+td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #edf0f5;
+  vertical-align: middle;
+}
+
+tbody tr {
+  transition: background 0.14s ease;
+}
+
+tbody tr:hover {
+  background: #f8faff;
+}
+
+.tbl-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+}
+
+/* Opt-in: caps a table's height and scrolls its rows instead of pushing the
+   page taller — the header stays put via position:sticky so it still reads
+   as "one table" while only the body scrolls. */
+.tbl-wrap.scroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+.tbl-wrap.scroll thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+.bar {
+  height: 8px;
+  background: #e9edf4;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.bar > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #06b6d4);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.bar.g > i {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.bar.r > i {
+  background: linear-gradient(90deg, #ef4444, #fb7185);
+}
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.48);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  overflow: auto;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 640px;
+  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.25);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.modal.wide {
+  max-width: 900px;
+}
+
+.modal-h {
+  padding: 17px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-b {
+  padding: 20px;
+  overflow: auto;
+}
+
+.modal-f {
+  padding: 14px 20px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: #f8fafc;
+  border-radius: 0 0 20px 20px;
+}
+
+/* =========================================================
+   TOASTS
+   ========================================================= */
+
+#toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toast {
+  background: #1e293b;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.22);
+  font-size: 13px;
+  max-width: 330px;
+  animation: sl 0.25s ease;
+}
+
+.toast.ok {
+  background: #047857;
+}
+.toast.bad {
+  background: #b91c1c;
+}
+.toast.warn {
+  background: #a16207;
+}
+
+@keyframes sl {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty {
+  padding: 42px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty .big {
+  font-size: 30px;
+  margin-bottom: 8px;
+  opacity: 0.45;
+}
+
+/* =========================================================
+   AUTH
+   ========================================================= */
+
+.auth {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  background: #f8faff;
+}
+
+@media (max-width: 900px) {
+  .auth {
+    grid-template-columns: 1fr;
+  }
+  .auth .promo {
+    display: none;
+  }
+}
+
+.promo {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(129, 140, 248, 0.3), transparent 30%),
+    radial-gradient(circle at 85% 85%, rgba(34, 211, 238, 0.18), transparent 30%),
+    linear-gradient(145deg, #171b38 0%, #25205a 48%, #123c50 100%);
+  color: #fff;
+  padding: 58px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.promo:after {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  right: -150px;
+  top: -130px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 0 35px rgba(255, 255, 255, 0.025),
+    0 0 0 70px rgba(255, 255, 255, 0.02);
+  pointer-events: none;
+}
+
+.promo h1 {
+  font-size: 35px;
+  letter-spacing: -1px;
+  margin-bottom: 13px;
+}
+
+.promo p {
+  color: #c7d2fe;
+  max-width: 460px;
+}
+
+.journey {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 27px;
+}
+
+.journey span {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  padding: 6px 13px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  backdrop-filter: blur(8px);
+}
+
+.promo .feat {
+  margin-top: 30px;
+  display: grid;
+  gap: 12px;
+  max-width: 470px;
+}
+
+.promo .feat div {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: #d6ddf3;
+}
+
+.authbox {
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.05), transparent 32%), #f8faff;
+}
+
+.authcard {
+  width: 100%;
+  max-width: 410px;
+}
+
+.otpwrap {
+  display: flex;
+  gap: 9px;
+  justify-content: space-between;
+}
+
+.otpwrap input {
+  width: 100%;
+  height: 54px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 750;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  outline: none;
+  transition: 0.16s ease;
+}
+
+.otpwrap input:focus {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.09);
+}
+
+.demo-accounts {
+  margin-top: 22px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 13px;
+  background: #f8fafc;
+}
+
+.demo-accounts .da {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px;
+  font-size: 12.5px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.demo-accounts .da:hover {
+  background: #fff;
+}
+
+/* =========================================================
+   TILES
+   ========================================================= */
+
+.tile {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--sh);
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.tile:hover {
+  transform: translateY(-3px);
+  border-color: #c7d2fe;
+  box-shadow: 0 14px 34px rgba(79, 70, 229, 0.13);
+}
+
+/* display: flex (not grid) because an image child needs height: 100% to
+   resolve against a definite cross-size — inside an auto-sized grid row,
+   a percentage height resolves as auto instead, so object-fit: contain
+   silently falls back to the image's own aspect ratio and overflows the
+   panel instead of fitting inside it. */
+.tile .cap {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: #fff;
+  position: relative;
+}
+
+/* A real product/category photo sits on a plain, light panel — like the
+   reference Learning Hub — instead of bleeding full-cover into the card.
+   object-fit: contain (not cover) means no image is ever cropped, whatever
+   its aspect ratio, so nothing baked near an edge (a label, a logo) gets
+   sliced off. Generous padding keeps the photo from crowding the panel —
+   matching the reference's airy product shots — even for a wide bottle or
+   bucket image that would otherwise read as nearly edge-to-edge. */
+.tile .cap.cap-img {
+  padding: 32px;
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+.tile .cap.cap-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+/* No real image for this product/category yet: a quiet placeholder panel
+   instead of reusing an unrelated photo. */
+.tile .cap.cap-img.empty {
+  color: var(--ink-2);
+  opacity: 0.45;
+  font-size: 34px;
+}
+
+.tile .bd {
+  padding: 16px 18px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.tile .bd b {
+  font-size: 15.5px;
+  color: var(--ink);
+}
+
+.cap.c1 {
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+}
+.cap.c2 {
+  background: linear-gradient(135deg, #64748b, #334155);
+}
+.cap.c3 {
+  background: linear-gradient(135deg, #fbbf24, #f97316);
+}
+.cap.c4 {
+  background: linear-gradient(135deg, #34d399, #059669);
+}
+.cap.c5 {
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+}
+
+/* Learning Portal module cards — bolder title than the plain .tile used
+   for the top-level category tiles, to match the reference Learning Hub's
+   product cards. Image area height is shared with .tile .cap above so
+   every card in a row lines up regardless of content type. */
+.tile.module-tile .bd {
+  min-height: 190px;
+}
+
+.tile.module-tile .bd b {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* Lays out a row of uniformly-sized cards, left-aligned as a group —
+   instead of a fixed-column grid that stretches tracks to fill the row
+   when fewer cards exist than would fill it. */
+.tile-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.tile-grid > .tile {
+  flex: 1 1 300px;
+  max-width: 360px;
+}
+
+/* =========================================================
+   VIEWER
+   ========================================================= */
+
+/* Both the slide list and the single-slide stage share this fixed height
+   (not derived from either one's content) so they always line up exactly,
+   slide to slide, instead of resizing to whatever the current slide's
+   content happens to need. Each scrolls internally on its own when its
+   content is taller than this. */
+:root {
+  --viewer-h: calc(100vh - 300px);
+}
+
+.viewer {
+  display: grid;
+  grid-template-columns: 215px minmax(0, 1fr);
+  gap: 17px;
+}
+
+.viewer > * {
+  min-width: 0;
+}
+
+/* Expand all removes the slide list entirely (see Viewer.tsx) and lets the
+   stage use the full row — a long, normally-scrolling page, not boxed into
+   --viewer-h like the single-slide view above. */
+.viewer.expanded {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (max-width: 980px) {
+  .viewer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.slidelist {
+  height: var(--viewer-h);
+  min-height: 320px;
+  overflow-y: auto;
+}
+
+.stage-wrap {
+  height: var(--viewer-h);
+  min-height: 320px;
+  overflow-y: auto;
+}
+
+.stage-wrap .stage {
+  min-height: 0;
+}
+
+.slidelist .it {
+  display: flex;
+  gap: 9px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12.5px;
+  align-items: center;
+  transition: 0.15s ease;
+}
+
+.slidelist .it:hover {
+  background: #f1f5ff;
+}
+
+.slidelist .it.on {
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+  font-weight: 650;
+}
+
+.slidelist .it .n {
+  width: 23px;
+  height: 23px;
+  border-radius: 7px;
+  background: #e9edf4;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex: none;
+}
+
+.slidelist .it.done .n {
+  background: var(--ok);
+  color: #fff;
+}
+
+.stage {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  padding: 34px;
+  box-shadow: var(--sh);
+}
+/* Let the card's own 34px padding be the only space above/below its
+   content — without this, a block's own top/bottom margin (badge-grid,
+   stat-grid, svg-cards, explain, etc. all carry one) stacks on top of the
+   padding, so a slide's padding looks consistent until the one field
+   that happens to render first or last on a given slide adds its own gap
+   on top of it. */
+.stage > *:first-child {
+  margin-top: 0;
+}
+.stage > *:last-child {
+  margin-bottom: 0;
+}
+
+.stage h2 {
+  font-size: 24px;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  letter-spacing: -0.5px;
+}
+
+.stage p {
+  color: #475569;
+  margin: 0 0 12px;
+}
+
+.stage ul {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  color: #475569;
+}
+
+.stage li {
+  margin-bottom: 6px;
+}
+
+.media {
+  border-radius: 13px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  margin: 14px 0;
+}
+
+.media .ph {
+  height: 190px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  text-align: center;
+  background: linear-gradient(135deg, #334155, #0f172a);
+}
+
+/* controlsList="nofullscreen" is only honored in Android WebViews, not desktop
+   Chrome, so the fullscreen and overflow-menu buttons are hidden here instead. */
+.media video::-webkit-media-controls-fullscreen-button,
+.media video::-webkit-media-controls-overflow-button {
+  display: none !important;
+}
+
+.media .cp {
+  padding: 9px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  background: #f8fafc;
+}
+
+/* Custom fullscreen trigger standing in for the native button hidden above. */
+.video-expand-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.6);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.video-expand-btn:hover {
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.media video:fullscreen,
+.media video:-webkit-full-screen {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+/* Animated SVG slides — generic runtime shared by every svg-type slide.
+   Each slide supplies its own scoped <style> (unique class per diagram) for
+   the actual shapes/keyframes; this just wires up play/pause and the shared
+   step-list look, mirroring the source site's animation framework. */
+.svg-anim {
+  margin: 14px 0;
+  padding: 14px;
+  border-radius: 13px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  /* Resolved tokens the extracted diagram markup references via var(--x) —
+     defined locally so the original source-site markup works unmodified,
+     without depending on that site's own theme being present here. */
+  --ink: #111;
+  --ink-2: #666;
+  --gold: #ffbe00;
+  --on-gold: #121212;
+  --paper: #fff;
+  --ok: #17b060;
+  --neg: #e63a2e;
+  --panel: #e8e8e8;
+  --other: #b4b4b4;
+  --rule: #d4d4d4;
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto",
+    "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto",
+    "Helvetica Neue", Arial, sans-serif;
+  --conc: #bdbdbd;
+  --water: #8cc8ee;
+  --wood: #8c8c8c;
+  --mc: #ffbe00;
+  --steel: #7a7a7a;
+  --rust: var(--neg);
+  --iwp: var(--gold);
+  --cblk: #b4b4b4;
+  --crack: #3a3a3a;
+  --tile: #dadada;
+  --tile-e: #b4b4b4;
+  --cmor: #d6d6d6;
+  --egj: #8c8c8c;
+  --stain: #5f5f5f;
+  --tg: var(--gold);
+  --seal: var(--gold);
+  --cg: #a8a8a8;
+  --mould: #2b2b2b;
+  --uv: #b4b4b4;
+  --pc: var(--gold);
+  --adh: #c2c2c2;
+  --tileb: #9a9a9a;
+  --soft: #f1f1f1;
+  --prod: var(--gold);
+  --ctone: #666;
+  --memb2: #7f7f7f;
+  --rigid: #9c9c9c;
+  --sandg: #a8a8a8;
+  --pst: #9a9a9a;
+  --sa0: #4f4f4f;
+  --sa1: #5f5f5f;
+  --sa2: #6f6f6f;
+  --slu: #8a8a8a;
+  --void: #fff;
+  --scr: #8a8a8a;
+  --conc2: #a3a3a3;
+  --dampc: #3f3f3f;
+  --aac: #e6e6e6;
+  --aacc: #c6c6c6;
+  --aace: #b6b6b6;
+  --plas: #cacaca;
+  --pit: #6c6c6c;
+  --paintd: #6f6f6f;
+  --paint: #9c9c9c;
+  --putty: #f7f7f7;
+  --puttys: #b1b1b1;
+  --fresh: #d0d0d0;
+  --fresh-e: #a9a9a9;
+  --agg: #9b9b9b;
+  --mixab: #c0c0c0;
+  --tgd: #111;
+  --gelc: #606060;
+  --mixa: #c4c4c4;
+  --mixb: #dddddd;
+  --grout: var(--gold);
+  --mor: #d6d6d6;
+  --lat: #ffffff;
+  --grain: #a3a3a3;
+  --sbr: var(--gold);
+}
+.svg-anim .s-cs-svg {
+  width: 100%;
+  height: auto;
+  max-width: 420px;
+  margin: 0 auto;
+  display: block;
+}
+.svg-anim.playing * {
+  animation-duration: var(--T, 10s);
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.svg-anim:not(.playing) * {
+  animation-play-state: paused;
+}
+.svg-anim .s-cst {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  max-width: 560px;
+  margin: 14px auto 0;
+}
+.svg-anim .s-cst li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: #111;
+}
+.svg-anim .s-cst .disc {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e8e8e8;
+  color: #111;
+  font-weight: 600;
+  font-size: 12.5px;
+  display: grid;
+  place-items: center;
+  margin-top: -1px;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.svg-anim .s-cst li > span:last-child {
+  padding-top: 2px;
+}
+.svg-anim-replay {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin: 0 0 8px auto;
+  font-size: 12px;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+  user-select: none;
+}
+.svg-anim-replay input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+.svg-anim-replay:hover {
+  background: var(--panel-2);
+}
+
+/* Multi-diagram bundles (two or three related animations on one slide) group
+   each diagram in its own .svg-card, so it reads as a titled card — like the
+   reference site's layout — instead of an anonymous animation with no label.
+   The .svg-anim rule above already draws each diagram's own border, so the
+   card itself stays borderless and just supplies the heading row. */
+.svg-cards {
+  display: grid;
+  /* auto-fit (not a fixed 1fr 1fr) so a lone diagram spans the full width
+     instead of sitting in column 1 with an empty column 2 beside it —
+     multiple diagrams still lay out two-up on wide screens. */
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: 16px;
+  margin: 14px 0;
+}
+.svg-card .svg-anim {
+  margin-top: 0;
+}
+.svg-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.svg-card-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 650;
+  font-size: 14px;
+  color: var(--ink, #111);
+}
+.svg-card-title.ok {
+  color: var(--ok-dark);
+}
+.svg-card-title.bad {
+  color: #b91c1c;
+}
+/* A red-cross/green-check marker on a diagram card's own title — e.g.
+   "Plain cement in the joint" (bad) vs "HW210 in the joint" (ok) — so the
+   verdict reads at a glance, not just from the diagram content below it. */
+.svg-card-status {
+  display: inline-flex;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+}
+.svg-card-status.ok {
+  background: var(--ok-soft);
+  color: var(--ok-dark);
+  border: 1.5px solid var(--ok);
+}
+.svg-card-status.bad {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1.5px solid #dc2626;
+}
+.svg-card-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+.svg-card-replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 3px 9px;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+}
+.svg-card-replay input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+.svg-card-replay:hover {
+  background: var(--panel-2);
+}
+@media (max-width: 640px) {
+  .svg-cards {
+    display: block !important;
+  }
+  .svg-card {
+    margin-bottom: 16px;
+  }
+}
+
+/* Caption below a multi-image gallery, which has no single .media box to live inside. */
+.cp {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 6px 0 14px;
+}
+
+.imggrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.imggrid .media {
+  margin: 0;
+}
+
+/* Without this, each image keeps its own natural aspect ratio and the grid
+   cells end up wildly different heights — whichever image happens to be
+   tallest/widest dominates the row. Cropping to a fixed height keeps every
+   image in a gallery the same size regardless of its original dimensions. */
+.imggrid .media img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  cursor: zoom-in;
+}
+
+/* A single image (the common case — one hero shot per slide) shouldn't be
+   squeezed into a multi-image gallery cell. Let it run full width at its
+   own aspect ratio instead, matching how the reference site shows it. */
+.imggrid:has(> *:only-child) {
+  grid-template-columns: 1fr;
+}
+
+.imggrid:has(> *:only-child) .media img {
+  height: auto;
+  max-height: 360px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.imggrid:has(> *:only-child) .media {
+  display: flex;
+  justify-content: center;
+  background: var(--panel-2);
+}
+
+.imgthumb {
+  position: relative;
+  border-radius: 13px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.imgthumb img {
+  display: block;
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+.imggrid:has(> .imgthumb:only-child) .imgthumb img {
+  height: auto;
+  object-fit: contain;
+}
+
+/* ---- Card slide type: stat tiles + spec table + confirmation badge ---- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+.stat-tile {
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 16px 16px 14px;
+  background: #fff;
+}
+.stat-tile .v {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #0f172a;
+}
+.stat-tile .l {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  margin-top: 2px;
+}
+.stat-tile .s {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+.card-table {
+  margin: 10px 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  overflow: hidden;
+}
+.card-table .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+}
+.card-table .row + .row {
+  border-top: 1px solid var(--line);
+}
+.card-table .row .l {
+  color: var(--muted);
+}
+.card-table .row .v {
+  font-weight: 600;
+  color: #0f172a;
+  text-align: right;
+}
+.card-table .row .v .ok-check {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 7px;
+  border-radius: 50%;
+  background: var(--ok);
+  color: #fff;
+  font-size: 10px;
+  vertical-align: middle;
+}
+/* The green "confirmed"/positive-result accent used throughout the source
+   site's SVG diagrams (e.g. the checkmark badge on a passed lab result) —
+   reused here so non-animated card slides carry the same visual language. */
+.card-badge-ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ok-soft);
+  color: var(--ok-dark);
+  border: 1px solid var(--ok);
+  border-radius: 999px;
+  padding: 5px 13px;
+  font-size: 12.5px;
+  font-weight: 650;
+  margin: 14px 0;
+}
+.card-badge-ok::before {
+  content: "\2713";
+}
+
+/* A row of labelled, iconed tiles — benefit callouts (Seals/Locks/Finishes)
+   or a red/green Don't-Do checklist. 'ok'/'bad' tint the icon chip; the
+   default (no tone) stays neutral grey, matching .stat-tile's border. */
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+.badge-tile {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 13px 14px;
+  background: #fff;
+}
+.badge-tile .ic {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  background: var(--panel-2);
+}
+.badge-tile.ok .ic {
+  background: var(--ok-soft);
+}
+.badge-tile.bad .ic {
+  background: #fee2e2;
+}
+.badge-tile .label {
+  font-weight: 650;
+  font-size: 13.5px;
+  color: #0f172a;
+}
+.badge-tile.ok .label {
+  color: var(--ok-dark);
+}
+.badge-tile.bad .label {
+  color: #b91c1c;
+}
+.badge-tile .sub {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+/* A true multi-column comparison grid (feature × several competitors),
+   distinct from .card-table's simple label/value rows. */
+.full-table-wrap {
+  overflow-x: auto;
+  margin: 14px 0;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+}
+.full-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.full-table th,
+.full-table td {
+  padding: 9px 13px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.full-table tr:last-child td {
+  border-bottom: none;
+}
+.full-table th {
+  background: var(--panel-2);
+  font-weight: 650;
+  color: #334155;
+}
+.full-table td:first-child,
+.full-table th:first-child {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* ---- Gauge rows: "TDS Range and Lab Result" / joint-width-by-competitor
+   bar comparisons. A grey track, an optional shaded "declared range" band,
+   and a dot marking the actual value, with the result + a green check at
+   the right. ---- */
+.gauge-card {
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 16px 18px;
+  margin: 14px 0;
+  background: #fff;
+}
+.gauge-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 70px;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+}
+.gauge-row + .gauge-row {
+  border-top: 1px solid var(--line);
+}
+.gauge-row .gl {
+  font-size: 13px;
+  font-weight: 650;
+  color: #0f172a;
+}
+.gauge-row .gl .s {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.gauge-track {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--panel-2);
+}
+.gauge-track .band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 999px;
+  background: rgba(255, 190, 0, 0.3);
+  border: 1px dashed var(--gold, #ffbe00);
+}
+.gauge-track .bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 999px;
+  background: var(--gold, #ffbe00);
+}
+.gauge-track .bar.muted {
+  background: #cbd5e1;
+}
+.gauge-track .dot {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold, #ffbe00);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--gold, #ffbe00);
+  transform: translate(-50%, -50%);
+}
+.gauge-row .gr {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #92720a;
+  white-space: nowrap;
+}
+.gauge-row .gr .ok-check {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ok);
+  color: #fff;
+  font-size: 10px;
+}
+
+/* ---- Gauge tabs: a "tap a class to switch" segmented control that swaps
+   which gauge-card is shown (e.g. HW402's M40/M60/M80 grade comparison).
+   Reuses the .calc-chips pill-toggle look so it reads as clickable. ---- */
+.gauge-tabs {
+  margin: 14px 0;
+}
+.gauge-tabs .gauge-tabs-bar {
+  margin-top: 0;
+}
+.gauge-tabs .gauge-card {
+  margin: 10px 0 0;
+}
+.gauge-tabs .explain {
+  margin: 10px 0 0;
+}
+
+/* ---- Stepper: a reusable, non-SVG numbered walkthrough (title + desc per
+   step, connected by a vertical line) — the Content Builder's "Stepper"
+   content type. ---- */
+.stepper {
+  margin: 14px 0;
+}
+.stepper-item {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  padding-bottom: 22px;
+}
+.stepper-item:last-child {
+  padding-bottom: 0;
+}
+.stepper-item::before {
+  content: '';
+  position: absolute;
+  left: 13px;
+  top: 28px;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+}
+.stepper-item:last-child::before {
+  display: none;
+}
+.stepper-no {
+  flex: none;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: var(--gold, #ffbe00);
+  color: #121212;
+  font-weight: 700;
+  font-size: 12.5px;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+}
+.stepper-item .t {
+  font-weight: 650;
+  font-size: 14px;
+  color: #0f172a;
+}
+.stepper-item .d {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ---- Sections: a divider-separated definition list (bold label line, then
+   a description) — used for content like a product cheat sheet. ---- */
+.sheet-sections {
+  margin: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.sheet-section {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.sheet-section .l {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #0f172a;
+  margin-bottom: 3px;
+}
+.sheet-section .t {
+  font-size: 13.5px;
+  color: #475569;
+}
+
+.imgthumb-rm {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 99px;
+  border: none;
+  background: rgba(15, 23, 42, 0.72);
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.imgthumb-rm:hover {
+  background: var(--bad);
+}
+
+/* Rich text: the editable toolbar area and the read-only rendered output
+   share the same type scale as plain slide body text (.stage p above). */
+.richtext-edit {
+  min-height: 130px;
+  overflow-y: auto;
+}
+
+.richtext-edit:empty:before {
+  content: attr(data-placeholder);
+  color: var(--muted-2);
+}
+
+.richtext-body p,
+.richtext-body div {
+  margin: 0 0 10px;
+  color: #475569;
+}
+
+.richtext-body ul,
+.richtext-body ol {
+  margin: 0 0 10px 20px;
+}
+
+.richtext-body a {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+/* Shared between the editable toolbar area (.richtext-edit) and the
+   read-only rendered output (.richtext-body) so a table looks the same
+   while authoring as it does to a participant. */
+.richtext-edit table,
+.richtext-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 10px 0 14px;
+}
+
+.richtext-edit th,
+.richtext-edit td,
+.richtext-body th,
+.richtext-body td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.richtext-edit th,
+.richtext-body th {
+  background: var(--panel-2);
+  font-weight: 650;
+}
+
+/* A short, uniform list of items (e.g. "where this product is used") reads
+   better as a grid of individual cards than as one run-on bullet list —
+   matches the reference site's layout for this kind of content. */
+.richtext-body .item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 10px 0 14px;
+}
+.richtext-body .item-card {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 30px 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  background: var(--panel-2);
+}
+.richtext-body .item-card-check {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  color: var(--ok, #17b060);
+  font-size: 13px;
+}
+
+.video .ph {
+  background: linear-gradient(135deg, #1e293b, #155e75);
+  cursor: pointer;
+}
+
+.play {
+  width: 58px;
+  height: 58px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  backdrop-filter: blur(5px);
+}
+
+/* Interactive calculator (SlideCalc) — a quantity stepper/unit toggle on the
+   left, its live-recomputed result on the right. Same bordered-card rhythm
+   as .stat-tile/.gauge-card (14px outer margin, 13px radius, 1px line). */
+.calc-widget {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 20px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 18px 20px;
+  margin: 14px 0;
+  background: #fff;
+}
+@media (max-width: 640px) {
+  .calc-widget {
+    grid-template-columns: 1fr;
+  }
+}
+.calc-stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.calc-stepper button {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--ink);
+}
+.calc-stepper button:hover {
+  background: var(--bg-soft);
+}
+.calc-stepper input {
+  width: 86px;
+  height: 40px;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  font-weight: 700;
+  font-size: 16px;
+}
+.calc-unit-label {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-left: 2px;
+}
+.calc-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.calc-chips button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 13px;
+  font-size: 12.5px;
+  font-weight: 600;
+  background: #fff;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.calc-chips button.on {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.calc-headline {
+  font-size: clamp(22px, 5vw, 34px);
+  font-weight: 800;
+  line-height: 1;
+}
+.calc-sub {
+  margin-top: 6px;
+  font-size: 14.5px;
+}
+.calc-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.calc-badge {
+  display: inline-block;
+  background: var(--gold, #ffbe00);
+  color: #121212;
+  padding: 5px 11px;
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 13.5px;
+}
+.calc-note {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.calc-select {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+}
+.calc-extra {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.calc-extra-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.calc-extra-value {
+  font-weight: 700;
+  font-size: 16px;
+}
+.calc-extra-label {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.explain {
+  background: var(--warn-soft);
+  border-left: 3px solid var(--warn);
+  padding: 12px 14px;
+  border-radius: 0 10px 10px 0;
+  font-size: 13px;
+  color: #92400e;
+  margin: 14px 0;
+}
+
+/* Knowledge-check feedback: orange (the base .explain above) for a wrong
+   answer, green for a correct one. */
+.explain.ok {
+  background: var(--ok-soft);
+  border-left-color: var(--ok);
+  color: var(--ok-dark);
+}
+
+.kc-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.kc-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.kc-opt input {
+  flex: none;
+}
+
+.kc-opt.correct {
+  border-color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.kc-opt.wrong {
+  border-color: var(--bad);
+  background: var(--bad-soft);
+}
+
+.keypoint {
+  background: var(--brand-soft);
+  border-left: 3px solid var(--brand);
+  padding: 12px 14px;
+  border-radius: 0 10px 10px 0;
+  font-size: 13px;
+  color: var(--brand-ink);
+  margin: 14px 0;
+}
+
+/* =========================================================
+   AI ASSISTANT
+   ========================================================= */
+
+.aifab {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 120;
+  width: 58px;
+  height: 58px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, #8b5cf6, #6366f1 55%, #06b6d4);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  box-shadow:
+    0 12px 30px rgba(99, 102, 241, 0.3),
+    0 0 0 5px rgba(99, 102, 241, 0.06);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.aifab:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 16px 36px rgba(99, 102, 241, 0.36),
+    0 0 0 7px rgba(99, 102, 241, 0.08);
+}
+
+.aipanel {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 130;
+  width: 400px;
+  max-width: calc(100vw - 28px);
+  height: min(610px, 84vh);
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.24);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.aihead {
+  background:
+    radial-gradient(circle at 85% 0%, rgba(34, 211, 238, 0.18), transparent 32%),
+    linear-gradient(135deg, #4338ca, #6366f1 58%, #0891b2);
+  color: #fff;
+  padding: 14px 16px;
+}
+
+.aictx {
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 5px 9px;
+  font-size: 11.5px;
+  margin-top: 7px;
+}
+
+.aibody {
+  flex: 1;
+  overflow: auto;
+  padding: 15px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.msg {
+  max-width: 88%;
+  padding: 10px 13px;
+  border-radius: 15px;
+  font-size: 13px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.msg.ai {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-bottom-left-radius: 5px;
+  align-self: flex-start;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.025);
+}
+
+.msg.me {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #fff;
+  border-bottom-right-radius: 5px;
+  align-self: flex-end;
+  box-shadow: 0 5px 14px rgba(79, 70, 229, 0.14);
+}
+
+.msg.sys {
+  align-self: center;
+  background: var(--warn-soft);
+  color: #92400e;
+  font-size: 11.5px;
+  border-radius: 9px;
+}
+
+.aifoot {
+  padding: 10px;
+  border-top: 1px solid var(--line);
+  background: #fff;
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.chip {
+  border: 1px solid var(--line-2);
+  background: #fff;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.chip:hover {
+  background: var(--brand-soft);
+  border-color: #a5b4fc;
+  color: var(--brand-ink);
+}
+
+.typing span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 99px;
+  background: var(--muted);
+  margin-right: 3px;
+  animation: bl 1s infinite;
+}
+
+.typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bl {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   EXAM
+   ========================================================= */
+
+.examtop {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: linear-gradient(90deg, #171b38, #29245e);
+  color: #fff;
+  padding: 13px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.12);
+}
+
+.timer {
+  font-size: 22px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  min-width: 62px;
+  text-align: center;
+}
+
+.timer.warn {
+  color: #fbbf24;
+}
+
+.timer.crit {
+  color: #fb7185;
+  animation: pulse 0.6s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.tprog {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.17);
+  border-radius: 99px;
+  overflow: hidden;
+  flex: 1;
+  min-width: 130px;
+}
+
+.tprog > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #22d3ee, #818cf8);
+  transition: width 0.95s linear;
+}
+
+.qbox {
+  max-width: 880px;
+  margin: 26px auto;
+  padding: 0 16px;
+}
+
+.qtext {
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 1.45;
+  margin: 10px 0 18px;
+}
+
+.opt {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 13px;
+  background: #fff;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: 0.14s ease;
+}
+
+.opt:hover {
+  border-color: #a5b4fc;
+  background: #f8faff;
+  transform: translateX(2px);
+}
+
+.opt.sel {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+  font-weight: 600;
+}
+
+.opt .k {
+  width: 27px;
+  height: 27px;
+  border-radius: 8px;
+  background: #eef2f7;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 12px;
+  flex: none;
+}
+
+.opt.sel .k {
+  background: var(--brand);
+  color: #fff;
+}
+
+.opt.correct {
+  border-color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.opt.wrong {
+  border-color: var(--bad);
+  background: var(--bad-soft);
+}
+
+.matchrow {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 640px) {
+  .matchrow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.resulthero {
+  text-align: center;
+  padding: 38px 20px;
+}
+
+.score-ring {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 14px;
+  border-radius: 99px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.score-ring .in {
+  width: 120px;
+  height: 120px;
+  background: #fff;
+  border-radius: 99px;
+  display: grid;
+  place-items: center;
+  flex-direction: column;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+}
+
+.score-ring .in b {
+  font-size: 34px;
+  letter-spacing: -1px;
+}
+
+.qa {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.qa .hd {
+  padding: 11px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+  background: #f8fafc;
+  transition: 0.15s ease;
+}
+
+.qa .hd:hover {
+  background: #f1f5f9;
+}
+
+.qa .bd {
+  padding: 14px;
+  border-top: 1px solid var(--line);
+  display: none;
+}
+
+.qa.open .bd {
+  display: block;
+}
+
+.mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 99px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  flex: none;
+}
+
+.mark.c {
+  background: var(--ok);
+}
+.mark.w {
+  background: var(--bad);
+}
+.mark.u {
+  background: #94a3b8;
+}
+
+/* =========================================================
+   LEADERBOARD
+   ========================================================= */
+
+.lb-row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  transition: 0.15s ease;
+}
+
+.lb-row:hover {
+  background: #f8fafc;
+}
+
+.lb-row.me {
+  background: var(--brand-soft);
+}
+
+.rank {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  background: #e9edf4;
+  flex: none;
+}
+
+.rank.r1 {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #fff;
+}
+
+.rank.r2 {
+  background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+  color: #fff;
+}
+
+.rank.r3 {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: #fff;
+}
+
+/* =========================================================
+   CERTIFICATE
+   ========================================================= */
+
+.cert {
+  background: linear-gradient(135deg, #fffdf7, #fff);
+  border: 14px solid #1b2140;
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  border-radius: 7px;
+  box-shadow: var(--sh);
+}
+
+.cert:before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 2px solid #c6a34a;
+  pointer-events: none;
+}
+
+.cert .ttl {
+  font-size: 29px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #1b2140;
+  font-weight: 800;
+}
+
+.cert .name {
+  font-size: 33px;
+  margin: 14px 0 6px;
+  color: #4f46e5;
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.cert .seal {
+  width: 88px;
+  height: 88px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, #d4af37, #98782d);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  margin: 16px auto;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.2;
+  border: 4px double #fff;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.16);
+}
+
+.cert .meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 26px;
+  font-size: 11.5px;
+  color: #475569;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   BUILDER
+   ========================================================= */
+
+.builder {
+  display: grid;
+  grid-template-columns: 195px 1fr 270px;
+  gap: 15px;
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .builder {
+    grid-template-columns: 1fr;
+  }
+}
+
+.thumb {
+  border: 2px solid var(--line);
+  border-radius: 11px;
+  padding: 9px;
+  margin-bottom: 8px;
+  cursor: grab;
+  background: #fff;
+  font-size: 11.5px;
+  position: relative;
+  transition: 0.15s ease;
+}
+
+.thumb:hover {
+  border-color: #c7d2fe;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+.thumb.on {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.thumb.drag {
+  opacity: 0.4;
+}
+
+.thumb .t {
+  font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.thumb .no {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  width: 21px;
+  height: 21px;
+  border-radius: 99px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 10.5px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.canvas {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  min-height: 420px;
+  padding: 22px;
+  box-shadow: var(--sh);
+}
+
+.waitgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 9px;
+}
+
+.wchip {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 11px;
+  font-size: 12.5px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  animation: sl 0.3s ease;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--ok);
+  animation: pulse 1.4s infinite;
+  flex: none;
+}
+
+/* Waiting room participant status: green while waiting, orange while
+   answering the live exam, grey (no pulse) once submitted. */
+.pulse-dot.exam {
+  background: var(--warn);
+}
+.pulse-dot.done {
+  background: #9ca3af;
+  animation: none;
+}
+
+/* =========================================================
+   TABS / STEPS
+   ========================================================= */
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+.tabs button {
+  border: none;
+  background: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: 0.15s ease;
+}
+
+.tabs button:hover {
+  color: var(--brand);
+}
+
+.tabs button.on {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
+}
+
+.step {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.step .n {
+  width: 24px;
+  height: 24px;
+  border-radius: 99px;
+  background: #e9edf4;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 11.5px;
+}
+
+.step.on .n {
+  background: var(--brand);
+  color: #fff;
+}
+
+.step.on {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.step.done .n {
+  background: var(--ok);
+  color: #fff;
+}
+
+/* =========================================================
+   CHARTS
+   ========================================================= */
+
+.chartbars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 150px;
+  padding-top: 10px;
+}
+
+.chartbars .cb {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  height: 100%;
+}
+
+.chartbars .cb i {
+  width: 100%;
+  background: linear-gradient(180deg, #818cf8, #4f46e5);
+  border-radius: 6px 6px 0 0;
+  display: block;
+  min-height: 3px;
+  transition: height 0.5s ease;
+}
+
+.chartbars .cb.g i {
+  background: linear-gradient(180deg, #34d399, #059669);
+}
+
+.chartbars .cb span {
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.hbar {
+  display: grid;
+  grid-template-columns: 150px 1fr 52px;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 9px;
+  font-size: 12.5px;
+}
+
+@media (max-width: 600px) {
+  .hbar {
+    grid-template-columns: 110px 1fr 46px;
+  }
+}
+
+/* =========================================================
+   GUIDE
+   ========================================================= */
+
+.guide {
+  position: fixed;
+  left: 14px;
+  bottom: 14px;
+  z-index: 140;
+  max-width: 330px;
+}
+
+.guide .gb {
+  background: linear-gradient(145deg, #171b38, #242052);
+  color: #dbe4ff;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 12.2px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.25);
+  max-height: 70vh;
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.guide .gb b {
+  color: #fff;
+}
+
+.guide ol {
+  padding-left: 17px;
+  margin: 8px 0 0;
+}
+
+.guide li {
+  margin-bottom: 5px;
+}
+
+.guidebtn {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #fff;
+  border: none;
+  border-radius: 99px;
+  padding: 8px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.24);
+  font-weight: 650;
+}
+
+/* =========================================================
+   ACCESSIBILITY / SCROLLBARS
+   ========================================================= */
+
+:focus-visible {
+  outline: 3px solid rgba(99, 102, 241, 0.2);
+  outline-offset: 2px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 99px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+@media print {
+  .side,
+  .topbar,
+  .noprint,
+  .aifab,
+  .guide {
+    display: none !important;
+  }
+
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .content {
+    padding: 0;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .card,
+  .stage,
+  .canvas {
+    box-shadow: none;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE FOUNDATION  (mandatory - PRD "Universal Responsive Standard")
+   Device tiers (mobile-first; every screen must hold at every width):
+     Mobile        320 - 599px      single column, drawer nav, bottom-sheet modals
+     Tablet        600 - 1023px     2-up grids, drawer nav below 821px
+     Laptop        1024 - 1439px    full sidebar, 3-4 col grids
+     Desktop       1440 - 1919px    wider gutters
+     Large monitor 1920px and up    scaled type + wider grids, fluid container
+   Rules enforced here for EVERY screen, present and future:
+     1. No horizontal page scroll - grid/flex children may always shrink
+        (min-width:0 / minmax(0,1fr)); wide data scrolls inside its own wrapper.
+     2. Media never exceeds its container.
+     3. Long words/URLs wrap instead of pushing the layout.
+     4. Touch targets >= 40px and inputs >= 16px on coarse pointers.
+     5. Dialogs, toasts and floating widgets always fit the viewport.
+   ========================================================= */
+
+:root {
+  --gutter: clamp(12px, 3.6vw, 26px);
+  --viewer-h: calc(100vh - 300px);
+}
+@supports (height: 100dvh) {
+  :root {
+    --viewer-h: calc(100dvh - 300px);
+  }
+  .shell {
+    min-height: 100dvh;
+  }
+  .side {
+    height: 100dvh;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Safety net only - root causes are fixed in the rules below. Uses clip (not
+   hidden) so position:sticky headers keep working. */
+body,
+#app,
+.main {
+  max-width: 100%;
+}
+.main {
+  overflow-x: clip;
+}
+
+img,
+video,
+canvas,
+iframe,
+embed,
+object {
+  max-width: 100%;
+}
+img,
+video {
+  height: auto;
+}
+svg {
+  max-width: 100%;
+}
+
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.stage,
+.card,
+.canvas,
+.kc-opt,
+.opt,
+.tile .bd,
+.msg,
+.toast,
+.explain,
+.keypoint,
+.badge-tile,
+.stat-tile,
+.sheet-section,
+.stepper-item,
+.richtext-body,
+.crumb,
+.modal-b,
+.qtext {
+  overflow-wrap: break-word;
+}
+
+/* Data tables keep whole words and scroll inside .tbl-wrap instead of
+   breaking mid-word. */
+table,
+th,
+td {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.stepper-item > div,
+.badge-tile > div,
+.card-table .row > span,
+.kc-opt > span,
+.opt > div,
+.opt > span {
+  min-width: 0;
+}
+
+/* Fluid auto-fit grids: the track minimum never exceeds the container. */
+.stat-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
+}
+.badge-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+}
+.imggrid {
+  grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr));
+}
+.richtext-body .item-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+}
+.waitgrid {
+  grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
+}
+
+/* Rich-text / slide tables scroll inside their own box. */
+.richtext-body table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.richtext-body img,
+.richtext-body video,
+.stage img,
+.stage video {
+  max-width: 100%;
+  height: auto;
+}
+
+.tile .cap {
+  height: clamp(170px, 48vw, 260px);
+}
+.tile .cap.cap-img {
+  padding: clamp(14px, 4vw, 32px);
+}
+
+/* Bare full-screen pages (login, exam, waiting room) */
+.auth {
+  min-height: 100vh;
+}
+@supports (height: 100dvh) {
+  .auth {
+    min-height: 100dvh;
+  }
+}
+.examtop > * {
+  min-width: 0;
+}
+.qbox {
+  width: 100%;
+}
+
+/* ---------- Laptop and below ---------- */
+@media (max-width: 1100px) {
+  .tile-grid > .tile {
+    flex-basis: 260px;
+  }
+}
+
+/* ---------- Tablet and below ---------- */
+@media (max-width: 820px) {
+  :root {
+    --viewer-h: auto;
+  }
+  .side {
+    max-width: 86vw;
+    left: -100%;
+  }
+  .side.open {
+    left: 0;
+  }
+  .content {
+    padding: var(--gutter);
+    padding-bottom: 92px; /* clears the floating AI / guide buttons */
+  }
+  .crumb {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1 1 auto;
+  }
+  .topbar .grow {
+    display: none;
+  }
+  .searchbox {
+    flex: 0 1 auto;
+  }
+  .stage {
+    padding: 22px;
+  }
+  .stage h2 {
+    font-size: 21px;
+  }
+  /* Single-slide view on tablet/phone: let the page scroll, not a nested box. */
+  .slidelist,
+  .stage-wrap {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+  }
+  .slidelist {
+    max-height: 240px;
+    overflow-y: auto;
+  }
+  .card.pad {
+    padding: 16px;
+  }
+  .card-b,
+  .modal-b {
+    padding: 16px;
+  }
+  .tbl-wrap,
+  .full-table-wrap {
+    -webkit-overflow-scrolling: touch;
+  }
+  .builder {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .builder > * {
+    min-width: 0;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 599px) {
+  .stage {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .stage h2 {
+    font-size: 19px;
+  }
+  .canvas {
+    padding: 14px;
+    min-height: 0;
+    border-radius: 14px;
+  }
+  .kpi {
+    padding: 14px;
+  }
+  .kpi .val {
+    font-size: 24px;
+  }
+  .card-h {
+    padding: 12px 14px;
+    flex-wrap: wrap;
+  }
+  .resulthero {
+    padding: 26px 12px;
+  }
+  .empty {
+    padding: 28px 14px;
+  }
+
+  /* Gauges: label + result on one line, the track gets a full-width row. */
+  .gauge-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 12px;
+  }
+  .gauge-row .gauge-track {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+  .gauge-card {
+    padding: 12px 14px;
+  }
+  .card-table .row {
+    padding: 10px 12px;
+    gap: 4px 12px;
+  }
+  .stepper-item {
+    gap: 11px;
+  }
+  .calc-widget {
+    padding: 14px;
+  }
+
+  /* Dialogs: full-width bottom sheets that always fit the screen. */
+  .modal-bg {
+    padding: 0;
+    place-items: end center;
+  }
+  .modal,
+  .modal.wide {
+    max-width: none;
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 18px 18px 0 0;
+  }
+  .modal-h {
+    padding: 14px 16px;
+  }
+  .modal-f {
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    border-radius: 0;
+  }
+  .modal-f .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  /* Floating widgets */
+  #toast {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    align-items: stretch;
+  }
+  .toast {
+    max-width: none;
+  }
+  .aifab {
+    right: 14px;
+    bottom: 14px;
+    width: 52px;
+    height: 52px;
+  }
+  .aipanel {
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+  .guide {
+    left: 12px;
+    bottom: 12px;
+    max-width: calc(100vw - 92px);
+  }
+  .profilecard {
+    width: min(220px, calc(100vw - 24px));
+  }
+
+  /* Exam */
+  .examtop {
+    padding: 10px 14px;
+    gap: 8px 12px;
+  }
+  .qbox {
+    margin: 16px auto;
+    padding: 0 12px;
+  }
+  .qtext {
+    font-size: 17px;
+  }
+  .opt {
+    padding: 12px;
+  }
+
+  /* Certificate */
+  .cert {
+    border-width: 8px;
+    padding: 24px 14px;
+  }
+  .cert:before {
+    inset: 4px;
+  }
+  .cert .ttl {
+    font-size: 17px;
+    letter-spacing: 2px;
+  }
+  .cert .name {
+    font-size: 24px;
+  }
+  .cert .meta {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hbar {
+    grid-template-columns: minmax(70px, 96px) minmax(0, 1fr) 44px;
+    gap: 8px;
+  }
+  .chartbars {
+    gap: 4px;
+  }
+  .auth .authbox {
+    padding: 20px 16px;
+  }
+  .lb-row {
+    padding: 10px;
+    gap: 9px;
+  }
+  .tabs button {
+    padding: 10px 12px;
+  }
+  .tile-grid {
+    gap: 14px;
+  }
+  .tile-grid > .tile {
+    flex-basis: 100%;
+    max-width: none;
+  }
+  .tile.module-tile .bd {
+    min-height: 0;
+  }
+}
+@supports (height: 100dvh) {
+  @media (max-width: 599px) {
+    .modal,
+    .modal.wide {
+      max-height: 100dvh;
+    }
+    .aipanel {
+      height: 100dvh;
+    }
+  }
+}
+
+/* ---------- Very small phones ---------- */
+@media (max-width: 379px) {
+  .topbar {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .btn {
+    padding: 8px 11px;
+  }
+  .otpwrap {
+    gap: 6px;
+  }
+  .otpwrap input {
+    height: 48px;
+    font-size: 19px;
+  }
+  .stage {
+    padding: 14px;
+  }
+}
+
+/* ---------- Touch devices: comfortable targets, no iOS zoom-on-focus ---------- */
+@media (pointer: coarse), (max-width: 820px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea,
+  .inp,
+  .searchbox input {
+    font-size: 16px;
+  }
+  .btn,
+  .iconbtn,
+  .chip,
+  .tabs button {
+    min-height: 40px;
+  }
+  .iconbtn {
+    min-width: 40px;
+  }
+  .btn.sm {
+    min-height: 36px;
+  }
+  .nav a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+/* ---------- Desktop ---------- */
+@media (min-width: 1440px) {
+  .content {
+    padding: 30px;
+  }
+}
+
+/* ---------- Large monitors ---------- */
+@media (min-width: 1920px) {
+  body {
+    font-size: 15px;
+  }
+  .content {
+    padding: 36px;
+    max-width: min(94vw, 2400px);
+  }
+  .shell {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+  .shell.collapsed {
+    grid-template-columns: 84px minmax(0, 1fr);
+  }
+  .tile-grid > .tile {
+    max-width: 420px;
+  }
+  .grid {
+    gap: 22px;
+  }
+  .stage {
+    padding: 40px;
+  }
+  .stage h2 {
+    font-size: 28px;
+  }
+  .qbox {
+    max-width: 1040px;
+  }
+  .qtext {
+    font-size: 23px;
+  }
+  .modal {
+    max-width: 720px;
+  }
+  .modal.wide {
+    max-width: 1080px;
+  }
+}
+@media (min-width: 2560px) {
+  body {
+    font-size: 16px;
+  }
+  .content {
+    max-width: min(92vw, 2800px);
+  }
+}
+
+/* ---------- Content Builder ---------- */
+.builder > * {
+  min-width: 0;
+}
+.canvas .row {
+  flex-wrap: wrap;
+}
+/* Inline-sized editor inputs ("flex: 1" fields) keep a usable minimum and
+   wrap to a new line instead of being squeezed to a sliver. */
+.canvas .row > .inp[style*="flex"] {
+  min-width: min(140px, 100%);
+}
+.canvas .row > .inp[style*="width"] {
+  max-width: 100%;
+}
+.canvas textarea.inp {
+  max-width: 100%;
+}
+@media (max-width: 1080px) {
+  /* Slide list becomes a horizontal strip so the editor is the first thing
+     you reach, not a screen of thumbnails. */
+  .builder-slides {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  .builder-thumbs {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 8px 4px 10px;
+    scroll-snap-type: x proximity;
+  }
+  .builder-thumbs .thumb {
+    flex: 0 0 min(190px, 62vw);
+    margin: 0;
+    scroll-snap-align: start;
+  }
+}
+@media (max-width: 599px) {
+  .canvas .row > .inp[style*="width"] {
+    flex: 1 1 calc(50% - 8px);
+    width: auto !important;
+  }
+  .canvas .row > .inp[style*="width: 50px"] {
+    flex: 0 0 56px;
+  }
+  .canvas label.f {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Input + action button pairs stay on one line (the generic mobile .row wrap
+   would otherwise push the button under a full-width input). */
+.aifoot .row {
+  flex-wrap: nowrap;
+}
+.aifoot .row .inp {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.aifoot .row .btn {
+  flex: none;
+}
+.aifoot {
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+}
+
+/* ---------- Topbar on phones: search collapses to an icon, expands on focus ---------- */
+@media (max-width: 599px) {
+  .searchbox {
+    flex: 0 0 40px;
+    width: 40px;
+    max-width: 40px;
+  }
+  .searchbox .si {
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .searchbox input {
+    height: 40px;
+    padding: 0;
+    color: transparent;
+    cursor: pointer;
+    caret-color: transparent;
+  }
+  .searchbox input::placeholder {
+    color: transparent;
+  }
+  .searchbox:focus-within {
+    position: fixed;
+    top: 6px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-width: none;
+    z-index: 70;
+  }
+  .searchbox:focus-within .si {
+    right: auto;
+    left: 14px;
+    transform: translateY(-50%);
+  }
+  .searchbox:focus-within input {
+    padding: 0 14px 0 38px;
+    color: var(--ink);
+    cursor: text;
+    caret-color: auto;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.18);
+  }
+  .searchbox:focus-within input::placeholder {
+    color: var(--muted-2);
+  }
+  .searchbox:focus-within .searchres {
+    top: 48px;
+    max-height: 60vh;
+  }
+}
+
+/* Form controls can never be wider than the box they sit in — a select sized
+   to its longest option ("width: auto") used to push filter bars off-screen. */
+.inp,
+select,
+input,
+textarea {
+  max-width: 100%;
+}
+select.inp {
+  text-overflow: ellipsis;
+}
+@media (max-width: 599px) {
+  /* Filter bars: each control takes a full line (or half when it fits). */
+  .row > select.inp,
+  .spread > select.inp {
+    flex: 1 1 140px;
+    width: auto !important;
+    min-width: 0;
+  }
+}
+
+/* Dialog overlay is a centring grid: without an explicit shrinkable track the
+   column grows to the dialog's widest descendant (a slide preview, a table)
+   and the dialog spills off-screen instead of scrolling inside itself. */
+.modal-bg {
+  grid-template-columns: minmax(0, 1fr);
+}
+.modal {
+  min-width: 0;
+  margin-inline: auto;
+}
+.modal-b {
+  min-width: 0;
+}
+
+/* A lone uploaded image in the editor is a thumbnail, not a hero banner. */
+.imggrid:has(> .imgthumb:only-child) {
+  grid-template-columns: minmax(0, 480px);
+}
+.imgthumb img {
+  max-height: 360px;
+}
+@media (min-width: 1920px) {
+  .builder {
+    grid-template-columns: 240px minmax(0, 1fr) 320px;
+    gap: 20px;
+  }
+  .builder-slides {
+    max-height: 760px !important;
+  }
+}
+
+/* ---------- Exam header ---------- */
+.examtop .row {
+  flex-wrap: nowrap;
+}
+.examtop .row > span {
+  white-space: nowrap;
+}
+.tprog {
+  min-width: 60px;
+}
+@media (max-width: 599px) {
+  .examtop {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+  .examtop > :nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    max-width: none !important;
+    width: 100%;
+  }
+  .examtop > :nth-child(3) {
+    grid-column: 2;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0;
+  }
+  .timer {
+    font-size: 20px;
+    min-width: 0;
+  }
+}
+
+/* The icon-only collapse control is a desktop affordance; the mobile drawer
+   always shows full labels and closes via its backdrop / a nav selection. */
+@media (max-width: 820px) {
+  .sidebar-collapse-btn {
+    display: none;
+  }
+}
+
+/* Drawer + its backdrop sit above the floating AI / guide widgets (z 120/140). */
+@media (max-width: 820px) {
+  .side {
+    z-index: 160;
+  }
+  .sidebackdrop {
+    z-index: 159;
+  }
+}
+
+/* Reading width: on very large monitors slide text stays at a comfortable line
+   length instead of stretching across 2000px+ (media still fills the card). */
+@media (min-width: 1920px) {
+  .viewer .stage {
+    max-width: 1560px;
+  }
+  .viewer.expanded > div {
+    max-width: 1560px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}

@@ -1,0 +1,20 @@
+<svg width="380" height="92" viewBox="0 0 380 92" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="gB_hw" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#c2410c"/>
+  </linearGradient></defs>
+  <rect width="380" height="92" fill="url(#gB_hw)"/>
+  <rect x="250" y="30" width="6" height="50" fill="#fff" opacity="0.5"/>
+  <rect x="250" y="30" width="60" height="6" fill="#fff" opacity="0.5"/>
+  <rect x="300" y="30" width="3" height="20" fill="#fff" opacity="0.5"/>
+  <rect x="330" y="40" width="30" height="40" fill="#fff" opacity="0.14"/>
+  <rect x="290" y="55" width="30" height="25" fill="#fff" opacity="0.14"/>
+  <g transform="translate(46,30)">
+    <path d="M0 24 Q0 0 24 0 Q48 0 48 24 Z" fill="#fff" opacity="0.95"/>
+    <rect x="-6" y="22" width="60" height="7" rx="3.5" fill="#fff" opacity="0.95"/>
+    <circle cx="24" cy="12" r="3.5" fill="#c2410c"/>
+  </g>
+  <path d="M152 70 L172 50" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+  <rect x="166" y="44" width="14" height="8" rx="2" fill="#fff" opacity="0.9" transform="rotate(45 173 48)"/>
+  <rect x="10" y="10" width="160" height="26" rx="13" fill="#7c2d12" opacity="0.4"/>
+  <text x="24" y="28" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#fff">Hardworker</text>
+</svg>

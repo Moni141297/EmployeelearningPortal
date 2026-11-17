@@ -1,0 +1,38 @@
+<svg width="380" height="92" viewBox="0 0 380 92" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pg_bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e293b"/><stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <pattern id="pg_grid" width="20" height="20" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="20" stroke="#ffffff" stroke-width="1" opacity="0.045"/>
+    </pattern>
+    <filter id="pg_shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="380" height="92" fill="url(#pg_bg)"/>
+  <rect width="380" height="92" fill="url(#pg_grid)"/>
+  <rect x="0" y="0" width="4" height="92" fill="#22d3ee"/>
+
+  <g filter="url(#pg_shadow)">
+    <g transform="translate(34,58)">
+      <polygon points="0,0 14,-6 28,0 14,6" fill="#38bdf8"/>
+      <polygon points="0,0 0,10 14,16 14,6" fill="#0284c7"/>
+      <polygon points="14,6 14,16 28,10 28,0" fill="#0ea5e9"/>
+    </g>
+    <g transform="translate(58,46)">
+      <polygon points="0,0 14,-6 28,0 14,6" fill="#67e8f9"/>
+      <polygon points="0,0 0,22 14,28 14,6" fill="#0284c7"/>
+      <polygon points="14,6 14,28 28,22 28,0" fill="#0ea5e9"/>
+    </g>
+    <g transform="translate(82,30)">
+      <polygon points="0,0 14,-6 28,0 14,6" fill="#a5f3fc"/>
+      <polygon points="0,0 0,38 14,44 14,6" fill="#0284c7"/>
+      <polygon points="14,6 14,44 28,38 28,0" fill="#0ea5e9"/>
+    </g>
+    <path d="M96 24 L96 10 M90 16 L96 8 L102 16" stroke="#22d3ee" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <text x="130" y="41" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#fff">General</text>
+  <text x="130" y="61" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">Our company, our journey</text>
+</svg>
